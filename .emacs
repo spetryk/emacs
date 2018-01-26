@@ -30,6 +30,33 @@
 ;; integrate pyenv with emacs
 (require 'pyenv-mode-auto)
 
+;; Delete file and buffer you are currently viewing
+;; based on http://emacsredux.com/blog/2013/04/03/delete-file-and-buffer/
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if filename
+        (if (y-or-n-p (concat "Do you really want to delete file " filename " ?"))
+            (progn
+              (delete-file filename)
+              (message "Deleted file %s." filename)
+              (kill-buffer)))
+      (message "Not a file visiting buffer!"))))
+
+;; Run JavaScript REPL with js-comint
+(require 'js-comint)
+(setq inferior-js-program-command "/usr/bin/rhino");; org.mozilla.javascript.tools.shell.Main")
+(add-hook 'js2-mode-hook '(lambda ()
+			    (local-set-key "\C-x\C-e" 'js-send-last-sexp)
+			    (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
+			    (local-set-key "\C-cb" 'js-send-buffer)
+			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
+			    (local-set-key "\C-cl" 'js-load-file-and-go)
+			    ))
+
+;; Get rid of toolbar at top
+;(tool-bar-mode -1)
 
 (setq inhibit-startup-message t)
 (tooltip-mode -1)
