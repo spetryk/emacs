@@ -56,7 +56,7 @@
 			    ))
 
 ;; Get rid of toolbar at top
-;(tool-bar-mode -1)
+(tool-bar-mode -1)
 
 (setq inhibit-startup-message t)
 (tooltip-mode -1)
