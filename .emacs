@@ -30,6 +30,19 @@
 ;; integrate pyenv with emacs
 (require 'pyenv-mode-auto)
 
+;; web-mode for editing web templates, like HTML files
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setq web-mode-code-indent-offset 2)
+
 ;; Delete file and buffer you are currently viewing
 ;; based on http://emacsredux.com/blog/2013/04/03/delete-file-and-buffer/
 (defun delete-file-and-buffer ()
@@ -54,6 +67,22 @@
 			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
 			    (local-set-key "\C-cl" 'js-load-file-and-go)
 			    ))
+
+(setq js-indent-level 2)
+
+(setq-default
+   web-mode-code-indent-offset 2
+   web-mode-markup-indent-offset 2)
+
+;; AUCTeX for editing LaTeX
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
 
 ;; Get rid of toolbar at top
 (tool-bar-mode -1)
@@ -94,6 +123,7 @@
  '(compilation-error-screen-columns nil)
  '(compilation-scroll-output t)
  '(compilation-search-path (quote (nil "src")))
+ '(doc-view-continuous t)
  '(electric-indent-mode nil)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
@@ -105,7 +135,9 @@
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
  '(show-trailing-whitespace t)
- '(visible-bell t))
+ '(visible-bell t)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2))
 
 ;; ANSI color in compilation buffer
 (require 'ansi-color)
@@ -129,11 +161,11 @@
    'compilation-error-regexp-alist
    (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
     2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
- 
+
 (add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
 (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;;(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
 ;; ## end of OPAM user-setup addition for emacs / base ## keep this line
 ;; Add MELPA support (needed to install company and tuareg)
 (require 'package)
