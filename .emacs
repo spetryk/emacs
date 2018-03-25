@@ -16,7 +16,7 @@
                         ("melpa" . "http://melpa.org/packages/")
                         ("org" . "http://orgmode.org/elpa/")))
 
-;; Set default Python version to python3
+;; Set default Python version
 (setq python-shell-interpreter "python3")
 
 ;; ivy-mode
@@ -84,6 +84,10 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
+;; Use company-mode text completion in all buffers
+(add-hook 'after-init-hook 'global-company-mode)
+
+
 ;; Get rid of toolbar at top
 (tool-bar-mode -1)
 
@@ -111,6 +115,26 @@
 
 (use-package molokai-theme :ensure t)
 (set-face-foreground 'font-lock-comment-face "light green")
+
+
+;; ESS for R
+(require 'ess-site)
+; automatically get the correct mode
+auto-mode-alist (append (list '("\\.c$" . c-mode)
+			      '("\\.tex$" . latex-mode)
+			      '("\\.S$" . S-mode)
+			      '("\\.s$" . S-mode)
+			      '("\\.R$" . R-mode)
+			      '("\\.r$" . R-mode)
+			      '("\\.html$" . html-mode)
+                              '("\\.emacs" . emacs-lisp-mode)
+	                )
+		      auto-mode-alist)
+
+;; Smooth scrolling
+(require 'sublimity)
+(require 'sublimity-scroll)
+(sublimity-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
