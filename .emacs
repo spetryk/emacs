@@ -7,6 +7,15 @@
 ;; Generic, recommended configuration options
 ;;(require 'use-package)
 
+;; Use a hook so the message doesn't get clobbered by other messages.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
 (setq package-list '(use-package))
 
 (require 'package)
@@ -84,6 +93,20 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
+
+;; Scala support
+;;(use-package ensime
+;;  :ensure t
+;;  :pin melpa-stable)
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+(use-package sbt-mode
+  :pin melpa)
+(use-package scala-mode
+  :pin melpa)
+
+
 ;; Use company-mode text completion in all buffers
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -108,6 +131,7 @@
 (global-hl-line-mode 1) ; highlights current line
 ;(set-face-background hl-line-face "#111")
 
+(global-subword-mode 1) ; jump by camel case words
 (global-visual-line-mode 1)
 (global-font-lock-mode 1)
 (which-function-mode t)
@@ -135,6 +159,9 @@ auto-mode-alist (append (list '("\\.c$" . c-mode)
 (require 'sublimity)
 (require 'sublimity-scroll)
 (sublimity-mode 1)
+
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
